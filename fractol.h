@@ -13,15 +13,16 @@
 #ifndef FRACTOL_H
 #define FRACTOL_H
 
-#include "minilibx_opengl_20191021/mlx.h"
+// #include "minilibx_opengl_20191021/mlx.h"
+#include "minilibx-linux/mlx.h"
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
 
-#define HIGHT 400
-#define WIDTH 400
+#define HIGHT 800
+#define WIDTH 1000
 #define MAND 1
 #define JUL 2
 # define MANDELBROT_STR "mandelbrot"
@@ -43,7 +44,7 @@ typedef struct s_fractal
 {
 	int type;
 	int zoom;
-	u_int32_t color;
+	int color;
 	double mouse_x;
 	double mouse_y;
 	double off_x;
@@ -73,12 +74,16 @@ typedef struct s_win
 } t_win;
 
 int		mandelbrot(t_fractal *fractal, t_complex *n);
+int julia(t_fractal *fractal, t_complex *n);
 
 // window management
 
 void declare_type(t_win *win, char *s);
 void reset_win(t_win *win, int frac_type);
 void launch(t_win *win, char *av);
+int mouse_hooks(int button, int x, int y, void *param);
+int key_hooks(int key, t_win *win);
+int hook_jul(int x, int y, t_win *win);
 
 //rendering
 
@@ -92,4 +97,7 @@ void	error_message(char *text, int mode);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	ft_strlen(char *s);
 void 	ft_putstr(char *s);
+double ft_atof(char *s);
+
+
 #endif

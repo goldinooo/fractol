@@ -55,3 +55,51 @@ void	error_message(char *text, int mode)
 		ft_putstr(text);
 	exit(EXIT_FAILURE);
 }
+static int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
+double ft_atof(char *s)
+{
+    double res = 0.0;
+    double fraction = 0.0;
+    double divider = 1.0;
+    int sign = 1;
+    int decimal_found = 0;
+    
+    // Skip whitespace
+    while (ft_isspace(*s))
+        s++;
+    
+    // Handle sign
+    if (*s == '-' || *s == '+')
+    {
+        sign = (*s == '-') ? -1 : 1;
+        s++;
+    }
+    
+    // Process digits
+    while (*s)
+    {
+        if (*s >= '0' && *s <= '9')
+        {
+            if (!decimal_found)
+                res = res * 10 + (*s - '0');
+            else
+            {
+                divider *= 10;
+                fraction = fraction + (double)(*s - '0') / divider;
+            }
+        }
+        else if (*s == '.' && !decimal_found)
+            decimal_found = 1;
+        else
+            break;  // Stop at non-numeric character
+        s++;
+    }
+    
+    return sign * (res + fraction);
+}
