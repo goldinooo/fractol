@@ -27,6 +27,13 @@
 #define JUL 2
 # define MANDELBROT_STR "mandelbrot"
 # define JULIA_STR "julia"
+#define SCROLL_UP 4
+#define SCROLL_DOWN 5
+#define KEY_ESC 65307
+#define KEY_LEFT 65361
+#define KEY_UP 65362
+#define KEY_RIGHT 65363
+#define KEY_DOWN 65364
 
 typedef struct s_pixel
 {
@@ -83,7 +90,6 @@ void reset_win(t_win *win, int frac_type);
 void launch(t_win *win, char *av);
 int mouse_hooks(int button, int x, int y, void *param);
 int key_hooks(int key, t_win *win);
-int hook_jul(int x, int y, t_win *win);
 
 //rendering
 

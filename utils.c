@@ -12,6 +12,17 @@
 
 #include "fractol.h"
 
+void init_fractal(t_win *win)
+{
+    // Initialize the fractal parameters
+    win->fractal.zoom = 250;      // Reasonable initial zoom level
+    win->fractal.off_x = -0.75;   // Center the real component (Mandelbrot bulb)
+    win->fractal.off_y = 0.0;     // Center the imaginary component
+    win->fractal.iterations = 100; // Reasonable starting iteration count
+    
+    // Other initialization as needed...
+}
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	idx;
@@ -61,45 +72,46 @@ static int	ft_isspace(char c)
 		return (1);
 	return (0);
 }
+static int	skip(char *str, int *is_neg)
+{
+	int	i;
 
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			*is_neg *= -1;
+		i++;
+	}
+	return (i);
+}
 double ft_atof(char *s)
 {
-    double res = 0.0;
-    double fraction = 0.0;
-    double divider = 1.0;
-    int sign = 1;
-    int decimal_found = 0;
-    
-    // Skip whitespace
-    while (ft_isspace(*s))
-        s++;
-    
-    // Handle sign
-    if (*s == '-' || *s == '+')
+    int i;
+    int sign;
+    double result;
+    double fraction;
+
+    sign = 1;
+    fraction = 0.1;
+    result = 0;
+    i = skip(s, &sign);
+    while(s[i] >= '0' && s[i] <= '9')
     {
-        sign = (*s == '-') ? -1 : 1;
-        s++;
+        result = result * 10 + (s[i] - '0');
+        i++;
     }
-    
-    // Process digits
-    while (*s)
+    if (s[i] == '.')
     {
-        if (*s >= '0' && *s <= '9')
+        i++;
+        while(s[i] >= '0' && s[i] <= '9')
         {
-            if (!decimal_found)
-                res = res * 10 + (*s - '0');
-            else
-            {
-                divider *= 10;
-                fraction = fraction + (double)(*s - '0') / divider;
-            }
+            result = result + (s[i] - '0') * fraction;
+            fraction /= 10;
+            i++;
         }
-        else if (*s == '.' && !decimal_found)
-            decimal_found = 1;
-        else
-            break;  // Stop at non-numeric character
-        s++;
     }
-    
-    return sign * (res + fraction);
+    return (result * sign);
 }

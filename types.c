@@ -38,26 +38,25 @@ int julia(t_fractal *fractal, t_complex *n)
     t_complex z;
     int idx;
     double temp;
-    
+
     // Start with the input point
     z.real = n->real;
     z.imag = n->imag;
-    
+
     idx = 0;
     while (idx < fractal->iterations)
     {
         // Check if point escapes
         if ((z.real * z.real + z.imag * z.imag) > 4.0)
             break;
-            
+
         // z = z² + c where c is the Julia parameter
         temp = z.real * z.real - z.imag * z.imag + fractal->mouse_x;
         z.imag = 2.0 * z.real * z.imag + fractal->mouse_y;
         z.real = temp;
-        
         idx++;
     }
-    
+
     return idx;
 }
 

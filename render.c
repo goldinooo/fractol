@@ -28,43 +28,61 @@ void pixel2color(t_win *win, int x, int y, int color)
 }
 int get_psychedelic_color(int iterations, int max_iterations)
 {
-    // Points inside the set are black
-    if (iterations == max_iterations)
-        return (0x000000);
-    
-    double ratio = (double)iterations / max_iterations;
-    int r, g, b;
-    
-    // Better color distribution:
-    if (ratio < 0.25) {
-        // Dark blue to medium blue
-        r = 0;
-        g = 0;
-        b = 50 + 150 * (ratio/0.25);
-    } else if (ratio < 0.5) {
-        // Medium blue to purple
-        r = 100 * ((ratio-0.25)/0.25);
-        g = 0;
-        b = 200;
-    } else if (ratio < 0.75) {
-        // Purple to red
-        r = 100 + 155 * ((ratio-0.5)/0.25);
-        g = 0;
-        b = 200 - 200 * ((ratio-0.5)/0.25);
-    } else {
-        // Red to yellow
-        r = 255;
-        g = 255 * ((ratio-0.75)/0.25);
-        b = 0;
-    }
-    
-    // Range check
-    r = (r > 255) ? 255 : (r < 0) ? 0 : r;
-    g = (g > 255) ? 255 : (g < 0) ? 0 : g;
-    b = (b > 255) ? 255 : (b < 0) ? 0 : b;
-    
-    return ((r << 16) | (g << 8) | b);
+	if (iterations == max_iterations)
+		return (0x000000);
+	
+	double ratio = (double)iterations / max_iterations;
+	int color_value = (int)(255 * ratio);
+	
+	// Ensure value is in proper range
+    if (color_value > 255)
+        color_value = 255;
+    else if (color_value < 0)
+        color_value = 0;
+	
+	// Using only one color gradient: purple to white
+	// Purple component (r and b) increases with iterations
+	return ((color_value << 16) | (0 << 8) | color_value);
 }
+// int get_psychedelic_color(int iterations, int max_iterations)
+// {
+//     // Points inside the set are black
+//     if (iterations == max_iterations)
+//         return (0x000000);
+    
+//     double ratio = (double)iterations / max_iterations;
+//     int r, g, b;
+    
+//     // Better color distribution:
+//     if (ratio < 0.25) {
+//         // Dark blue to medium blue
+//         r = 0;
+//         g = 0;
+//         b = 50 + 150 * (ratio/0.25);
+//     } else if (ratio < 0.5) {
+//         // Medium blue to purple
+//         r = 100 * ((ratio-0.25)/0.25);
+//         g = 0;
+//         b = 200;
+//     } else if (ratio < 0.75) {
+//         // Purple to red
+//         r = 100 + 155 * ((ratio-0.5)/0.25);
+//         g = 0;
+//         b = 200 - 200 * ((ratio-0.5)/0.25);
+//     } else {
+//         // Red to yellow
+//         r = 255;
+//         g = 255 * ((ratio-0.75)/0.25);
+//         b = 0;
+//     }
+    
+//     // Range check
+//     r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+//     g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+//     b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+    
+//     return ((r << 16) | (g << 8) | b);
+// }
 int make_fractal(t_fractal *fract, t_complex *n, int x, double y)
 {
 	int idx;
@@ -83,6 +101,7 @@ void render(t_win *win)
     int idx;
     int x;
     int y;
+    int color;
     
     fract = &win->fractal;
     
@@ -100,7 +119,7 @@ void render(t_win *win)
             idx = make_fractal(fract, &n, x, y);
             
             // Use a more visible color scheme
-            int color = get_psychedelic_color(idx, fract->iterations);
+            color = get_psychedelic_color(idx, fract->iterations);
             pixel2color(win, x, y, color);
             y++;
         }
@@ -114,13 +133,4 @@ void render(t_win *win)
 // This code should be placed wherever you initialize the fractal parameters
 // Typically in your main function or init_fractal function
 
-void init_fractal(t_win *win)
-{
-    // Initialize the fractal parameters
-    win->fractal.zoom = 250;      // Reasonable initial zoom level
-    win->fractal.off_x = -0.75;   // Center the real component (Mandelbrot bulb)
-    win->fractal.off_y = 0.0;     // Center the imaginary component
-    win->fractal.iterations = 100; // Reasonable starting iteration count
-    
-    // Other initialization as needed...
-}
+

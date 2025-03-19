@@ -1,6 +1,5 @@
 #include "fractol.h"
-#define SCROLL_UP 4
-#define SCROLL_DOWN 5
+
 
 int mouse_hooks(int button, int x, int y, void *param)
 {
@@ -34,30 +33,40 @@ int mouse_hooks(int button, int x, int y, void *param)
 
 int key_hooks(int key, t_win *win)
 {
-	if (key == 65307)
-	{
-		mlx_destroy_image(win->mlx, win->image.img_ptr);
-		mlx_destroy_window(win->mlx, win->window);
-		exit(EXIT_SUCCESS);
-	}
-	render(win);
-	return 0;
-}
-
-int hook_jul(int x, int y, t_win *win)
-{
-    if (win->fractal.type == JUL && win->fractal.is_julia)
+    // Movement amount - inversely proportional to zoom level
+    double move_amount = 20.0 / win->fractal.zoom;
+    int update = 0;
+    
+    if (key == KEY_ESC)
     {
-        // Calculate real and imaginary coordinates at mouse position
-        win->fractal.mouse_x = (x - WIDTH / 2.0) / win->fractal.zoom + win->fractal.off_x;
-        win->fractal.mouse_y = (y - HIGHT / 2.0) / win->fractal.zoom + win->fractal.off_y;
-        
-        // Debug log to see parameter changes
-        printf("Dynamic Julia params: c = %.4f + %.4fi\n", 
-               win->fractal.mouse_x, win->fractal.mouse_y);
-        
-        // Re-render with new parameters
-        render(win);
+        mlx_destroy_image(win->mlx, win->image.img_ptr);
+        mlx_destroy_window(win->mlx, win->window);
+        exit(EXIT_SUCCESS);
     }
-    return (0);
+    else if (key == KEY_LEFT)
+    {
+        win->fractal.off_x -= move_amount;
+        update = 1;
+    }
+    else if (key == KEY_RIGHT)
+    {
+        win->fractal.off_x += move_amount;
+        update = 1;
+    }
+    else if (key == KEY_UP)
+    {
+        win->fractal.off_y -= move_amount;
+        update = 1;
+    }
+    else if (key == KEY_DOWN)
+    {
+        win->fractal.off_y += move_amount;
+        update = 1;
+    }
+    
+    // Only render if view has changed
+    if (update)
+        render(win);
+    
+    return 0;
 }
