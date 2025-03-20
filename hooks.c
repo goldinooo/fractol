@@ -1,28 +1,25 @@
 #include "fractol.h"
 
-
 int mouse_hooks(int button, int x, int y, void *param)
 {
-    t_win *win = (t_win *)param;
-    int mouse_x, mouse_y;
-    double mouse_re, mouse_im;
-    double zoom_factor;
+    t_win   *win = (t_win *)param;
+    int mouse_x;
+    int mouse_y;
+    double mouse_re;
+    double mouse_im;
     // Use the input parameters directly instead of getting mouse position again
-    // This can be more reliable in some systems
     mouse_x = x;
     mouse_y = y; 
     // Calculate real and imaginary coordinates at mouse position
     mouse_re = (mouse_x - WIDTH / 2.0) / win->fractal.zoom + win->fractal.off_x;
     mouse_im = (mouse_y - HIGHT / 2.0) / win->fractal.zoom + win->fractal.off_y; 
-    // Apply zoom based on scroll direction
-    if (button == SCROLL_UP)
+    if (button == SCROLL_UP)// Apply zoom based on scroll direction
         win->fractal.zoom *= 1.1;
     else if (button == SCROLL_DOWN)
         win->fractal.zoom /= 1.1;
     else
         return (0);
-    // Apply minimum zoom limit
-    if (win->fractal.zoom < 10)
+    if (win->fractal.zoom < 10) // Apply minimum zoom limit
         win->fractal.zoom = 10;
     // Calculate new offsets to keep mouse_re and mouse_im at the same pixel
     win->fractal.off_x = mouse_re - (mouse_x - WIDTH / 2.0) / win->fractal.zoom;
@@ -33,40 +30,27 @@ int mouse_hooks(int button, int x, int y, void *param)
 
 int key_hooks(int key, t_win *win)
 {
-    // Movement amount - inversely proportional to zoom level
-    double move_amount = 20.0 / win->fractal.zoom;
-    int update = 0;
-    
+    double move_amount;
+
+    move_amount = 20.0 / win->fractal.zoom;
     if (key == KEY_ESC)
     {
         mlx_destroy_image(win->mlx, win->image.img_ptr);
-        mlx_destroy_window(win->mlx, win->window);
-        exit(EXIT_SUCCESS);
+        clearup(win);
+        exit(0);
     }
     else if (key == KEY_LEFT)
-    {
         win->fractal.off_x -= move_amount;
-        update = 1;
-    }
     else if (key == KEY_RIGHT)
-    {
         win->fractal.off_x += move_amount;
-        update = 1;
-    }
     else if (key == KEY_UP)
-    {
         win->fractal.off_y -= move_amount;
-        update = 1;
-    }
     else if (key == KEY_DOWN)
-    {
         win->fractal.off_y += move_amount;
-        update = 1;
-    }
+    else
+        return 0;
     
-    // Only render if view has changed
-    if (update)
-        render(win);
-    
+    render(win);
     return 0;
 }
+

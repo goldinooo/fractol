@@ -72,13 +72,10 @@ void render(t_win *win)
         y = 0;
         while (y < HIGHT)
         {
-            // Calculate the complex coordinates using the same coordinate system as mouse_hooks
-            n.real = ((x - WIDTH / 2.0) / (double)fract->zoom) + fract->off_x;
-            n.imag = ((y - HIGHT / 2.0) / (double)fract->zoom) + fract->off_y; 
-            // Get iteration count
-            idx = make_fractal(fract, &n, x, y);
-            // Use a more visible color scheme
-            color = get_psychedelic_color(idx, fract->iterations);
+            n.real = ((x - WIDTH / 2.0) / (double)fract->zoom) + fract->off_x; // Calculate real part of complex number
+            n.imag = ((y - HIGHT / 2.0) / (double)fract->zoom) + fract->off_y; // Calculate imaginary part of complex number
+            idx = make_fractal(fract, &n, x, y); // Get iteration count
+            color = get_psychedelic_color(idx, fract->iterations);// Use a more visible color scheme
             pixel2color(win, x, y, color);
             y++;
         }

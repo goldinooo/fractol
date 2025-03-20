@@ -12,15 +12,6 @@
 
 #include "fractol.h"
 
-static void clearup(t_win *win)
-{
-    if (!win)
-        return;
-    mlx_destroy_window(win->mlx, win->window);
-    free(win->mlx);
-    error_message("MLX ERROR can't create the object\n", 1);
-}
-
 void declare_type(t_win *win, char *s)
 {
 	int len;
@@ -82,10 +73,7 @@ void launch(t_win *win, char *av)
     if (!(win->window = mlx_new_window(win->mlx, WIDTH, HIGHT, "psychedelic Thinker")))
         clearup(win);
     if (!(win->image.img_ptr = mlx_new_image(win->mlx, WIDTH, HIGHT)))
-    {
-        mlx_destroy_window(win->mlx, win->window);
         clearup(win);
-    }
     win->image.add = mlx_get_data_addr(win->image.img_ptr, &win->image.p_bits, \
                              &win->image.line_len, &win->image.endian);
 }

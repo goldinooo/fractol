@@ -34,12 +34,6 @@
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
 
-typedef struct s_pixel
-{
-	int x;
-	int y;
-} t_pixel;
-
 typedef struct s_complex
 {
 	double real;
@@ -85,7 +79,6 @@ int julia(t_fractal *fractal, t_complex *n);
 
 // window management
 
-void declare_type(t_win *win, char *s);
 void reset_win(t_win *win, int frac_type);
 void launch(t_win *win, char *av);
 int mouse_hooks(int button, int x, int y, void *param);
@@ -103,7 +96,8 @@ void	error_message(char *text, int mode);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	ft_strlen(char *s);
 void 	ft_putstr(char *s);
-double ft_atof(char *s);
+double 	ft_atof(char *s);
+void 	clearup(t_win *win);
 
 
 #endif

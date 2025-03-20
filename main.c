@@ -14,6 +14,8 @@
 
 static int close_window(void *param)
 {
+    t_win *win = (t_win *)param;
+    clearup(win); // Ensure cleanup before exiting
     exit(0);
     return (0);
 }
