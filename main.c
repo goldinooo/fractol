@@ -6,7 +6,7 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:28 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 06:28:05 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 01:53:21 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int main(int ac, char **av)
     launch(&window, av[1]);
     if (ac >= 4 && window.fractal.type == JUL)
     {
-        window.fractal.mouse_x = ft_atof(av[2]);
-        window.fractal.mouse_y = ft_atof(av[3]);
+        window.fractal.n.real = ft_atof(av[2]);
+        window.fractal.n.imag = ft_atof(av[3]);
     }
     render(&window);
     mlx_key_hook(window.window, key_hooks, &window);

@@ -6,7 +6,7 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:11 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 07:34:20 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 02:07:45 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,45 +44,7 @@ int get_psychedelic_color(int iterations, int max_iterations)
 	// Purple component (r and b) increases with iterations
 	return ((color_value << 16) | (0 << 8) | color_value);
 }
-// int get_psychedelic_color(int iterations, int max_iterations)
-// {
-//     // Points inside the set are black
-//     if (iterations == max_iterations)
-//         return (0x000000);
-    
-//     double ratio = (double)iterations / max_iterations;
-//     int r, g, b;
-    
-//     // Better color distribution:
-//     if (ratio < 0.25) {
-//         // Dark blue to medium blue
-//         r = 0;
-//         g = 0;
-//         b = 50 + 150 * (ratio/0.25);
-//     } else if (ratio < 0.5) {
-//         // Medium blue to purple
-//         r = 100 * ((ratio-0.25)/0.25);
-//         g = 0;
-//         b = 200;
-//     } else if (ratio < 0.75) {
-//         // Purple to red
-//         r = 100 + 155 * ((ratio-0.5)/0.25);
-//         g = 0;
-//         b = 200 - 200 * ((ratio-0.5)/0.25);
-//     } else {
-//         // Red to yellow
-//         r = 255;
-//         g = 255 * ((ratio-0.75)/0.25);
-//         b = 0;
-//     }
-    
-//     // Range check
-//     r = (r > 255) ? 255 : (r < 0) ? 0 : r;
-//     g = (g > 255) ? 255 : (g < 0) ? 0 : g;
-//     b = (b > 255) ? 255 : (b < 0) ? 0 : b;
-    
-//     return ((r << 16) | (g << 8) | b);
-// }
+
 int make_fractal(t_fractal *fract, t_complex *n, int x, double y)
 {
 	int idx;
@@ -104,7 +66,6 @@ void render(t_win *win)
     int color;
     
     fract = &win->fractal;
-    
     x = 0;
     while (x < WIDTH)
     {
@@ -113,19 +74,16 @@ void render(t_win *win)
         {
             // Calculate the complex coordinates using the same coordinate system as mouse_hooks
             n.real = ((x - WIDTH / 2.0) / (double)fract->zoom) + fract->off_x;
-            n.imag = ((y - HIGHT / 2.0) / (double)fract->zoom) + fract->off_y;
-            
+            n.imag = ((y - HIGHT / 2.0) / (double)fract->zoom) + fract->off_y; 
             // Get iteration count
             idx = make_fractal(fract, &n, x, y);
-            
             // Use a more visible color scheme
             color = get_psychedelic_color(idx, fract->iterations);
             pixel2color(win, x, y, color);
             y++;
         }
         x++;
-    }
-    
+    } 
     // Put image to window after all pixels are set
     mlx_put_image_to_window(win->mlx, win->window, win->image.img_ptr, 0, 0);
 }

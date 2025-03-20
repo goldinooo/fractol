@@ -6,15 +6,14 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:34 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 06:25:41 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 02:15:44 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 #define FRACTOL_H
 
-// #include "minilibx_opengl_20191021/mlx.h"
-#include "minilibx-linux/mlx.h"
+#include "minilibx/mlx.h"
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -27,9 +26,9 @@
 #define JUL 2
 # define MANDELBROT_STR "mandelbrot"
 # define JULIA_STR "julia"
-#define SCROLL_UP 4
-#define SCROLL_DOWN 5
-#define KEY_ESC 65307
+#define SCROLL_UP 1
+#define SCROLL_DOWN 2
+#define KEY_ESC 53
 #define KEY_LEFT 65361
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
@@ -52,8 +51,9 @@ typedef struct s_fractal
 	int type;
 	int zoom;
 	int color;
-	double mouse_x;
-	double mouse_y;
+	// double mouse_x;
+	// double mouse_y;
+	t_complex n;
 	double off_x;
 	double off_y;
 	int iterations;

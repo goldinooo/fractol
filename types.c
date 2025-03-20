@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   types.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:16:45 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 05:43:25 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 01:54:34 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int julia(t_fractal *fractal, t_complex *n)
             break;
 
         // z = z² + c where c is the Julia parameter
-        temp = z.real * z.real - z.imag * z.imag + fractal->mouse_x;
-        z.imag = 2.0 * z.real * z.imag + fractal->mouse_y;
+        temp = z.real * z.real - z.imag * z.imag + fractal->n.real;
+        z.imag = 2.0 * z.real * z.imag + fractal->n.imag;
         z.real = temp;
         idx++;
     }

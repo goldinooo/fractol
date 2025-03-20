@@ -6,7 +6,7 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:15 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 07:27:23 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 02:13:56 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void clearup(t_win *win)
 {
     if (!win)
         return;
-    mlx_destroy_display(win->mlx);
+    mlx_destroy_window(win->mlx, win->window);
     free(win->mlx);
     error_message("MLX ERROR can't create the object\n", 1);
 }
@@ -45,8 +45,8 @@ void reset_win(t_win *win, int frac_type)
     if (frac_type == JUL)
     {
         win->fractal.is_julia = true;
-        win->fractal.mouse_x = -0.8;    // Classic Julia parameter
-        win->fractal.mouse_y = 0.156;   // Classic Julia parameter
+        win->fractal.n.real = -0.8;    // Classic Julia parameter
+        win->fractal.n.imag = 0.156;   // Classic Julia parameter
         win->fractal.iterations = 200;  // Higher iterations for detail
         win->fractal.off_x = 0.0;       // Center Julia at origin
         win->fractal.off_y = 0.0;       // Center Julia at origin
@@ -54,9 +54,9 @@ void reset_win(t_win *win, int frac_type)
     else // MAND
     {
         win->fractal.is_julia = false;
-        win->fractal.mouse_x = 0;
-        win->fractal.mouse_y = 0;
-        win->fractal.iterations = 100;
+        win->fractal.n.real = 0;
+        win->fractal.n.imag = 0;
+        win->fractal.iterations = 200;
         win->fractal.off_x = -0.75;     // Center Mandelbrot at main bulb
         win->fractal.off_y = 0.0;
     }
@@ -64,10 +64,12 @@ void reset_win(t_win *win, int frac_type)
 
 void launch(t_win *win, char *av)
 {
+    int fractal_type;
+    int len;
+	
     if (!win || !av)
-        return; 
-    int fractal_type = MAND;  // Default
-    int len = ft_strlen(av);
+        return;
+	len = ft_strlen(av); 
     if (ft_strncmp(av, "mandelbrot", len) == 0)
         fractal_type = MAND;
     else if (ft_strncmp(av, "julia", len) == 0)
@@ -75,14 +77,11 @@ void launch(t_win *win, char *av)
     else
         error_message("Wrong fractal :)\n", 1);
     reset_win(win, fractal_type);
-    win->mlx = mlx_init();
-    if (!win->mlx)
+    if (!(win->mlx = mlx_init()))
         error_message("Wrong fractal :)\n", 1);
-    win->window = mlx_new_window(win->mlx, WIDTH, HIGHT, "psychedelic Thinker");
-    if (!win->window)
+    if (!(win->window = mlx_new_window(win->mlx, WIDTH, HIGHT, "psychedelic Thinker")))
         clearup(win);
-    win->image.img_ptr = mlx_new_image(win->mlx, WIDTH, HIGHT);
-    if (!win->image.img_ptr)
+    if (!(win->image.img_ptr = mlx_new_image(win->mlx, WIDTH, HIGHT)))
     {
         mlx_destroy_window(win->mlx, win->window);
         clearup(win);

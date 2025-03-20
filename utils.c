@@ -6,22 +6,11 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:20 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/15 03:39:21 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 02:03:54 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-void init_fractal(t_win *win)
-{
-    // Initialize the fractal parameters
-    win->fractal.zoom = 250;      // Reasonable initial zoom level
-    win->fractal.off_x = -0.75;   // Center the real component (Mandelbrot bulb)
-    win->fractal.off_y = 0.0;     // Center the imaginary component
-    win->fractal.iterations = 100; // Reasonable starting iteration count
-    
-    // Other initialization as needed...
-}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
