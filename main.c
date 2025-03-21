@@ -6,7 +6,7 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:28 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/20 01:53:21 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/20 23:25:46 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int close_window(void *param)
     t_win *win = (t_win *)param;
     clearup(win); // Ensure cleanup before exiting
     exit(0);
-    return (0);
 }
 
 int main(int ac, char **av)

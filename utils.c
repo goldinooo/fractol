@@ -6,7 +6,7 @@
 /*   By: retahri <retahri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 03:39:20 by retahri           #+#    #+#             */
-/*   Updated: 2025/03/20 02:03:54 by retahri          ###   ########.fr       */
+/*   Updated: 2025/03/21 00:22:27 by retahri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ void clearup(t_win *win)
 {
     if (!win)
         return;
-    if (win->image.img_ptr)
-        mlx_destroy_image(win->mlx, win->image.img_ptr); // Free image
     mlx_destroy_window(win->mlx, win->window);
     free(win->mlx);
-    error_message("MLX ERROR can't create the object\n", 1);
+	exit(EXIT_FAILURE);
 }
