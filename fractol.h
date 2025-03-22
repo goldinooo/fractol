@@ -24,8 +24,6 @@
 #define WIDTH 1000
 #define MAND 1
 #define JUL 2
-# define MANDELBROT_STR "mandelbrot"
-# define JULIA_STR "julia"
 #define SCROLL_UP 1
 #define SCROLL_DOWN 2
 #define KEY_ESC 53
@@ -45,8 +43,6 @@ typedef struct s_fractal
 	int type;
 	int zoom;
 	int color;
-	// double mouse_x;
-	// double mouse_y;
 	t_complex n;
 	double off_x;
 	double off_y;
@@ -77,7 +73,7 @@ typedef struct s_win
 int		mandelbrot(t_fractal *fractal, t_complex *n);
 int julia(t_fractal *fractal, t_complex *n);
 
-// window management
+//.................../ window management\.......................//
 
 void reset_win(t_win *win, int frac_type);
 void launch(t_win *win, char *av);

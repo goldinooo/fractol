@@ -69,7 +69,7 @@ void launch(t_win *win, char *av)
         error_message("Wrong fractal :)\n", 1);
     reset_win(win, fractal_type);
     if (!(win->mlx = mlx_init()))
-        error_message("Wrong fractal :)\n", 1);
+        error_message("Failed to build mlx :)\n", 1);
     if (!(win->window = mlx_new_window(win->mlx, WIDTH, HIGHT, "psychedelic Thinker")))
         clearup(win);
     if (!(win->image.img_ptr = mlx_new_image(win->mlx, WIDTH, HIGHT)))

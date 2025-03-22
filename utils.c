@@ -73,7 +73,11 @@ void clearup(t_win *win)
 {
     if (!win)
         return;
-    mlx_destroy_window(win->mlx, win->window);
-    free(win->mlx);
-	exit(EXIT_FAILURE);
+    if (win->image.img_ptr)
+        mlx_destroy_image(win->mlx, win->image.img_ptr);
+    if (win->window)
+        mlx_destroy_window(win->mlx, win->window);
+    if (win->mlx)
+        free(win->mlx);
+	exit(0);
 }

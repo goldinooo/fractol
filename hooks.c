@@ -13,18 +13,18 @@ int mouse_hooks(int button, int x, int y, void *param)
     // Calculate real and imaginary coordinates at mouse position
     mouse_re = (mouse_x - WIDTH / 2.0) / win->fractal.zoom + win->fractal.off_x;
     mouse_im = (mouse_y - HIGHT / 2.0) / win->fractal.zoom + win->fractal.off_y; 
-    if (button == SCROLL_UP)// Apply zoom based on scroll direction
+    if (button == SCROLL_UP)
         win->fractal.zoom *= 1.1;
     else if (button == SCROLL_DOWN)
         win->fractal.zoom /= 1.1;
     else
         return (0);
-    if (win->fractal.zoom < 10) // Apply minimum zoom limit
+    if (win->fractal.zoom < 10)
         win->fractal.zoom = 10;
     // Calculate new offsets to keep mouse_re and mouse_im at the same pixel
     win->fractal.off_x = mouse_re - (mouse_x - WIDTH / 2.0) / win->fractal.zoom;
     win->fractal.off_y = mouse_im - (mouse_y - HIGHT / 2.0) / win->fractal.zoom;  
-    render(win); // Re-render with new parameters
+    render(win);
     return (0);
 }
 
@@ -34,11 +34,7 @@ int key_hooks(int key, t_win *win)
 
     move_amount = 20.0 / win->fractal.zoom;
     if (key == KEY_ESC)
-    {
-        mlx_destroy_image(win->mlx, win->image.img_ptr);
         clearup(win);
-        exit(0);
-    }
     else if (key == KEY_LEFT)
         win->fractal.off_x -= move_amount;
     else if (key == KEY_RIGHT)
