@@ -14,7 +14,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -24,9 +24,9 @@ int ft_strlen(char *s)
 	return (i);
 }
 
-void ft_putstr(char *s)
+void	ft_putstr(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (s[i])
